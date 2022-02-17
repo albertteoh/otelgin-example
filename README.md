@@ -14,7 +14,8 @@ $ cd inventory-backend && go run main.go
 ## Verification
 
 1. Run [Jaeger All In One](https://www.jaegertracing.io/docs/latest/getting-started/#all-in-one).
-2. From a terminal, hit the inventory-frontend: `curl localhost:8080/inventory`.
+2. From a terminal, hit the inventory-frontend: `curl localhost:8080/inventory`. 
+   1. Note: please ignore the curl response, it's a bug that I haven't looked into yet.
 3. Open http://localhost:16686/ in a browser.
 4. Check the services `inventory-frontend` and `inventory-backend` are present.
 5. Choose one of these services and click `Find Traces`.
