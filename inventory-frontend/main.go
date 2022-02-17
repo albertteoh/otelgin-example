@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -47,13 +48,14 @@ func HTTPClientTransporter(rt http.RoundTripper) http.RoundTripper {
 	return otelhttp.NewTransport(rt)
 }
 
-func getInventory() data.Inventory {
+func getInventory(ctx context.Context) data.Inventory {
 	client := resty.New()
 	otelTransport := HTTPClientTransporter(client.GetClient().Transport)
 	client.SetTransport(otelTransport)
 	var p data.Inventory
 	_, err := client.R().
 		SetResult(&p).
+		SetContext(ctx).
 		Get("http://localhost:8081/inventory")
 
 	if err != nil {
@@ -72,7 +74,7 @@ func main() {
 
 	r.GET("/inventory", func(c *gin.Context) {
 		c.JSON(200, gin.H{
-			"inventory": getInventory(),
+			"inventory": getInventory(c.Request.Context()),
 		})
 	})
 	r.Run()
