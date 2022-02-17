@@ -62,7 +62,7 @@ func getInventory(ctx context.Context) data.Inventory {
 		log.Println("inventory-frontend: can't get inventory")
 		return data.Inventory{}
 	}
-	log.Printf("inventory-frontend: go inventory")
+	log.Printf("inventory-frontend: got inventory %+v", p)
 	return p
 }
 
