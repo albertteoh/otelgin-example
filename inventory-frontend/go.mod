@@ -3,9 +3,9 @@ module github.com/albertteoh/gin-example/inventory-frontend
 go 1.17
 
 require (
+	github.com/albertteoh/gin-example/data v0.0.0
 	github.com/gin-gonic/gin v1.7.7
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/hashicorp/go-uuid v1.0.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.29.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.29.0
 	go.opentelemetry.io/otel v1.4.1
@@ -36,3 +36,5 @@ require (
 	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
+
+replace github.com/albertteoh/gin-example/data v0.0.0 => ../data

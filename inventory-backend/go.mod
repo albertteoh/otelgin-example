@@ -3,8 +3,8 @@ module github.com/albertteoh/gin-example/inventory-backend
 go 1.17
 
 require (
+	github.com/albertteoh/gin-example/data v0.0.0
 	github.com/gin-gonic/gin v1.7.7
-	github.com/hashicorp/go-uuid v1.0.2
 	go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin v0.29.0
 	go.opentelemetry.io/otel v1.4.1
 	go.opentelemetry.io/otel/exporters/jaeger v1.4.1
@@ -18,7 +18,6 @@ require (
 	github.com/go-playground/locales v0.13.0 // indirect
 	github.com/go-playground/universal-translator v0.17.0 // indirect
 	github.com/go-playground/validator/v10 v10.4.1 // indirect
-	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/golang/protobuf v1.3.3 // indirect
 	github.com/json-iterator/go v1.1.9 // indirect
 	github.com/leodido/go-urn v1.2.0 // indirect
@@ -28,7 +27,8 @@ require (
 	github.com/ugorji/go/codec v1.1.7 // indirect
 	go.opentelemetry.io/otel/trace v1.4.1 // indirect
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9 // indirect
-	golang.org/x/net v0.0.0-20211029224645-99673261e6eb // indirect
 	golang.org/x/sys v0.0.0-20210423185535-09eb48e85fd7 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
+
+replace github.com/albertteoh/gin-example/data v0.0.0 => ../data

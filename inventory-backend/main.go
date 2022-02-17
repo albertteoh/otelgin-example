@@ -4,9 +4,8 @@ package main
 import (
 	"log"
 
+	"github.com/albertteoh/gin-example/data"
 	"github.com/gin-gonic/gin"
-	uuid "github.com/hashicorp/go-uuid"
-
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/jaeger"
@@ -40,24 +39,9 @@ func initTracer() {
 	otel.SetTracerProvider(tp)
 }
 
-type Product struct {
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
-	ID    string  `json:"id"`
-}
-
-type Inventory struct {
-	Products []Product `json:"products"`
-}
-
-func genUUIDv4() string {
-	id, _ := uuid.GenerateUUID()
-	return id
-}
-
-func getInventory() Inventory {
-	return Inventory{
-		Products: []Product{
+func getInventory() data.Inventory {
+	return data.Inventory{
+		Products: []data.Product{
 			{Name: "potato", Price: 0.99, ID: "1"},
 			{Name: "apple", Price: 0.50, ID: "2"},
 			{Name: "mango", Price: 1.50, ID: "3"},
@@ -69,7 +53,7 @@ func main() {
 	initTracer()
 
 	r := gin.Default()
-	r.Use(otelgin.Middleware("inventory-server"))
+	r.Use(otelgin.Middleware("inventory-backend"))
 
 	r.GET("/inventory", func(c *gin.Context) {
 		c.JSON(200, gin.H{

@@ -51,17 +51,16 @@ func getInventory() data.Inventory {
 	client := resty.New()
 	otelTransport := HTTPClientTransporter(client.GetClient().Transport)
 	client.SetTransport(otelTransport)
-	var p Inventory
-	// Call service-b
+	var p data.Inventory
 	_, err := client.R().
 		SetResult(&p).
 		Get("http://localhost:8081/inventory")
 
 	if err != nil {
-		log.Println("service-a: can't get inventory")
-		return Inventory{}
+		log.Println("inventory-frontend: can't get inventory")
+		return data.Inventory{}
 	}
-	log.Printf("service-a: go inventory")
+	log.Printf("inventory-frontend: go inventory")
 	return p
 }
 
@@ -69,7 +68,7 @@ func main() {
 	initTracer()
 
 	r := gin.Default()
-	r.Use(otelgin.Middleware("inventory-server"))
+	r.Use(otelgin.Middleware("inventory-frontend"))
 
 	r.GET("/inventory", func(c *gin.Context) {
 		c.JSON(200, gin.H{
