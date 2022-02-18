@@ -2,7 +2,10 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net/http"
+	"time"
 
 	"github.com/albertteoh/gin-example/data"
 	"github.com/gin-gonic/gin"
@@ -56,9 +59,17 @@ func main() {
 	r.Use(otelgin.Middleware("inventory-backend"))
 
 	r.GET("/inventory", func(c *gin.Context) {
+		prettyPrintHeader(c.Request.Header)
 		c.JSON(200, gin.H{
 			"inventory": getInventory(),
 		})
 	})
 	r.Run("localhost:8081")
+}
+
+func prettyPrintHeader(header http.Header) {
+	fmt.Printf("Request at %v\n", time.Now())
+	for k, v := range header {
+		fmt.Printf("%v: %v\n", k, v)
+	}
 }
