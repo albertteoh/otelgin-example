@@ -55,8 +55,6 @@ func getInventory(ctx context.Context) data.Inventory {
 	client.SetTransport(otelTransport)
 	var p data.Response
 	_, err := client.R().
-		SetHeader("Content-Type", "application/json").
-		SetHeader("Accept", "application/json").
 		SetResult(&p).
 		SetContext(ctx).
 		Get("http://localhost:8082/inventory")
