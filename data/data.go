@@ -9,3 +9,7 @@ type Product struct {
 type Inventory struct {
 	Products []Product `json:"products"`
 }
+
+type Response struct {
+	Inventory Inventory `json:"inventory"`
+}
