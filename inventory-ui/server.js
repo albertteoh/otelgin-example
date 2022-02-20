@@ -6,7 +6,7 @@ const tracer = require('./tracer')('inventory-ui');
 const http = require('http');
 
 /** A function which makes requests and handles response. */
-function requestInventory(span) {
+function requestInventory(span, parentResponse) {
   api.context.with(api.trace.setSpan(api.context.active(), span), () => {
     http.get({
       host: 'localhost',
@@ -16,7 +16,7 @@ function requestInventory(span) {
       const body = [];
       response.on('data', (chunk) => body.push(chunk));
       response.on('end', () => {
-        console.log(body.toString());
+        parentResponse.end(body.toString());
       });
     });
   });
@@ -59,9 +59,8 @@ function handleRequest(request, response) {
   request.on('end', () => {
     // deliberately sleeping to mock some action.
     setTimeout(() => {
-      requestInventory(span);
+      requestInventory(span, response);
       span.end();
-      response.end('Hello World!');
     }, 2000);
   });
 }
