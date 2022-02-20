@@ -52,10 +52,18 @@ func getInventory() data.Inventory {
 	}
 }
 
+func JSONMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json")
+		c.Next()
+	}
+}
+
 func main() {
 	initTracer()
 
 	r := gin.Default()
+	r.Use(JSONMiddleware())
 	r.Use(otelgin.Middleware("inventory-backend"))
 
 	r.GET("/inventory", func(c *gin.Context) {
@@ -64,7 +72,7 @@ func main() {
 			"inventory": getInventory(),
 		})
 	})
-	r.Run("localhost:8081")
+	r.Run("localhost:8082")
 }
 
 func prettyPrintHeader(header http.Header) {

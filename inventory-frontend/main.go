@@ -56,7 +56,7 @@ func getInventory(ctx context.Context) data.Inventory {
 	_, err := client.R().
 		SetResult(&p).
 		SetContext(ctx).
-		Get("http://localhost:8081/inventory")
+		Get("http://localhost:8082/inventory")
 
 	if err != nil {
 		log.Println("inventory-frontend: can't get inventory")
@@ -66,10 +66,18 @@ func getInventory(ctx context.Context) data.Inventory {
 	return p
 }
 
+func JSONMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		c.Writer.Header().Set("Content-Type", "application/json")
+		c.Next()
+	}
+}
+
 func main() {
 	initTracer()
 
 	r := gin.Default()
+	r.Use(JSONMiddleware())
 	r.Use(otelgin.Middleware("inventory-frontend"))
 
 	r.GET("/inventory", func(c *gin.Context) {
@@ -77,5 +85,5 @@ func main() {
 			"inventory": getInventory(c.Request.Context()),
 		})
 	})
-	r.Run()
+	r.Run("localhost:8081")
 }
